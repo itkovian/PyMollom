@@ -100,8 +100,8 @@ class MollomAPI(object):
     self.hardCodedServerList = ['http://xmlrpc3.mollom.com', 'http://xmlrpc2.mollom.com', 'http://xmlrpc1.mollom.com']
 
   def __s(self):
-    return x.ServerProxy(self.currentServer + '/' + self.mollomVersion, HTTPTransport())
-
+    r = x.ServerProxy(self.currentServer + '/' + self.mollomVersion, HTTPTransport())
+    return r
 
   def __authentication(self):
     """Computes the required authentication information for each message sent to the
@@ -396,7 +396,104 @@ class MollomAPI(object):
 
     return self.__service('verifyKey', data)
 
+  def detectLanguage(self, text):
+    """Detect the language the text is written in.
 
+    Keyword arguments:
+    text -- The text to run language detection on.
+
+    Returns:
+      Unclear from the API description, but likely an array of structs
+      containing a language string (2 or 3 characters) and a confidence
+      value between 0 and 1. The languages are sorted according to 
+      descending confidence values.
+    """
+    
+    data = dict()
+    data['text'] = text
+
+    return self.__service('detectLanguage', data)
+
+  def addBlacklistText(self, text, match, reason):
+    """Add a piece of text to the blacklist for the site corresponding to
+       the used public/private keypair
+
+    Keyword arguments:
+    text -- The text to blacklist
+    match -- Method used to search for the text: one of 'exact', 'contains'
+    reason -- One of the reasons for blacklisting the text: 'spam', 'profanity', 'low-quality', 'unwanted'
+
+    Returns:
+      Always returns true
+    """
+    data = dict()
+    data['text'] = text
+    data['match'] = match
+    data['reason'] = reason
+
+    return self.__service('addBlacklistText', data)
+
+  def removeBlacklistText(self, text):
+    """Remove a piece of blacklisted text
+
+    Keyword arguments:
+    text -- The text to remove from the blacklist
+
+    Returns:
+      Always returns true
+    """
+    data = dict()
+    data['text'] = text
+    
+    return __service('removeBlacklistText', data)
+
+  def listBlacklistText(self):
+    """Return a list of the site-specific blacklisted text snippets.
+
+    Returns:
+      Unclear from the API description, but supposedly an array with
+      all the snippets that have been blacklisted for the site with
+      corresponding public key.
+    """
+    return self.__service('listBlacklistText', {})
+
+
+  def addBlacklistURL(self, url):
+    """Add an URL to the list of blacklisted URLS for the site corresponding to
+       the used public/private keypair
+    
+    Keyword arguments:
+    url -- The URL to blacklist
+
+    Returns:
+      Always returns true
+    """
+    data = dict()
+    data['url'] = url
+
+    return __service('addBlacklistURL', data)
+
+  def removeBlacklistURL(self, url):
+    """Remove an URL from the blacklisted URLs
+
+    Keyword arguments:
+    url -- The URL to remove
+
+    Returns:
+      Always returns true
+    """
+    data = dict()
+    data['url'] = url
+
+    return __service('removeBlacklistURL', data)
+
+  def listBlacklistURL(self):
+    """Return a list of the site-specific blacklisted URLs.
+
+    Returns:
+      An array containing the URLs with some meta-information. The Mollom API docs need to be checked.
+    """
+    return self.__service('listBlacklistURL', {})
 
 
 class MollomContentResponse(object):
@@ -489,3 +586,24 @@ class MollomBase(object):
 
   def verifyKey(self):
     return self.api.verifyKey()
+
+  def detectLanguage(self, text):
+    return self.api.detectLanguage(text)
+
+  def addBlacklistText(self, text, match, reason):
+    return self.api.addBlacklistText(text, match, reason)
+
+  def removeBlacklistText(self, text):
+    return self.api.removeBlacklistText(text)
+
+  def listBlacklistText(self):
+    return self.api.listBlacklistText()
+
+  def addBlacklistURL(self, url):
+    self.api.addBlacklistURL(url)
+
+  def removeBlacklistURL(self, url):
+    self.api.removeBlacklistURL(url)
+
+  def listBlacklistURL(self):
+    self.api.listBlacklistURL()
