@@ -4,6 +4,7 @@ PyMollom
 
 A Python library for the `Mollom`_ anti-spam service.
 
+A PyPI package is available at `PyPI_pymollom`_.
 
 Example: ::
 
@@ -26,3 +27,4 @@ Example: ::
 
 
 .. _`Mollom`: http://mollom.com/
+.. _`PyPI_pymollom`: http://pypi.python.org/pypi?:action=display&name=PyMollom&version=0.1
