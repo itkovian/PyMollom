@@ -6,3 +6,4 @@ dist
 include
 build
 MANIFEST
+/nbproject/private/
