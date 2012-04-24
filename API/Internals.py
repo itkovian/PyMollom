@@ -18,8 +18,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # ---------------------------------------------------------------------
-__author__ = "Andy Georges"
-__date__ = "$Feb 8, 2012$"
+__author__ = 'Andy Georges'
+__status__ = 'beta'
+__version__ = '0.1'
+__date__ = 'Feb 8, 2012'
+
 # This module contains internal functions
 # ---------------------------------------------------------------------
 
@@ -69,3 +72,11 @@ def __service(method, path, data=None, maxRetries=0, depth=0):
     else:
         # FIXME: do some error checking here
         return None
+
+
+def __cat_maybe_values(d):
+    d_ = dict()
+    for k,v in d.iteritems():
+        if v != None:
+            d_[k] = v
+    return d_

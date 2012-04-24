@@ -16,7 +16,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # ---------------------------------------------------------------------
-__author__ = "Andy Georges"
-__date__ = "$Apr 20, 2012$"
-# This module contains the various API classes for the Mollom REST API
-# ---------------------------------------------------------------------
+
+"""This package contains the implementations of the public Mollom API.
+
+@author Andy Georges
+@date Apr 20, 2012
+"""
+__author__ = 'Andy Georges'
+__status__ = 'beta'
+__version__ = '0.1'
+__date__ = 'Apr 20, 2012'
+
+

@@ -21,10 +21,9 @@ __date__ = "$Feb 8, 2012$"
 # This module contains the class file for the Mollom Content API
 # ---------------------------------------------------------------------
 
-import oauth2
-import urlllib
+import urllib
 
-from Internals import __service
+from Internals import __service, __cat_maybe_values
 
 class Check(object):
     """Representing the checks Mollom is requested to make on a submitted piece of content:
@@ -61,14 +60,14 @@ class Content(object):
 
 
     def checkContent( self
-                      , postTitle=None
-                      , postBody=None
-                      , authorName=None
-                      , authorUrl=None
-                      , authorMail=None
-                      , authorOpenid=None
-                      , authorIp=None
-                      , authorId=None
+                      , post_title=None
+                      , post_body=None
+                      , author_name=None
+                      , author_url=None
+                      , author_mail=None
+                      , author_open_id=None
+                      , author_ip=None
+                      , author_id=None
                       , checks=None
                       , unsure=None
                       , strictness=None
@@ -76,28 +75,28 @@ class Content(object):
                       , honeypot=None
                       , stored=None
                       , url=None
-                      , contextUrl=None
-                      , contextTitle=None
+                      , context_url=None
+                      , context_title=None
     ):
         """Submit content to the Mollom service to have it checked for spaminess.
 
         Keyword arguments:
-        postTitle    (optional) -- The title of your post or comment.
-        postBody     (optional) -- The main content that needs to be checked.
-        authorName   (optional) -- The content author.
-        authorUrl    (optional) -- The URL of the content author's website.
-        authorMail   (optional) -- The email address of the content author.
-        authorOpenid (optional) -- The Open ID of the content author.
-        authorIp     (optional) -- The IP address of the content author.
-        authorId     (optional) -- The ID the content author has on the website where the posting takes place.
-        checks       (optional) --
-        unsure       (optional) --
-        strictness   (optional) --
-        honeypot     (optional) --
-        stored       (optional) --
-        url          (optional) --
-        contextUrl   (optional) --
-        contextTitle (optional) --
+        post_title     (optional) -- The title of your post or comment.
+        post_body      (optional) -- The main content that needs to be checked.
+        author_name    (optional) -- The content author.
+        author_url     (optional) -- The URL of the content author's website.
+        author_mail    (optional) -- The email address of the content author.
+        author_open_id (optional) -- The Open ID of the content author.
+        author_ip      (optional) -- The IP address of the content author.
+        author_id      (optional) -- The ID the content author has on the website where the posting takes place.
+        checks         (optional) --
+        unsure         (optional) --
+        strictness     (optional) --
+        honeypot       (optional) --
+        stored         (optional) --
+        url            (optional) --
+        context_url    (optional) --
+        context_title  (optional) --
 
         Returns:
         A dictionary with following keys if succesful
@@ -105,21 +104,21 @@ class Content(object):
             spamScore           -- only returned when the check included SPAM
         """
 
-        tuples = {'postTitle': postTitle
-            , 'postBody': postBody
-            , 'authorName': authorName
-            , 'authorUrl': authorUrl
-            , 'authorMail': authorMail
-            , 'authorOpenid': authorOpenid
+        tuples = {'postTitle': post_title
+            , 'postBody': post_body
+            , 'authorName': author_name
+            , 'authorUrl': author_url
+            , 'authorMail': author_mail
+            , 'authorOpenid': author_open_id
             , 'checks': checks #FIXME: these should be concatenated
             , 'unsure': unsure
             , 'strictness': strictness
             , 'honeypot': honeypot
             , 'stored': stored
             , 'url': url
-            , 'contextUrl': contextUrl
-            , 'contextTitle': contextTitle}
-        data = Util.catMaybeValues(tuples)
+            , 'contextUrl': context_url
+            , 'contextTitle': context_title}
+        data = __cat_maybe_values(tuples)
         answer = __service('POST', 'content', data, )
 
         # for now, we check for a None, this should be fixed when we throw exceptions
@@ -129,14 +128,14 @@ class Content(object):
         return self.__parseContentResponse(json.loads(answer))
 
     def updateContent( self
-                       , postTitle=None
-                       , postBody=None
-                       , authorName=None
-                       , authorUrl=None
-                       , authorMail=None
-                       , authorOpenid=None
-                       , authorIp=None
-                       , authorId=None
+                       , post_title=None
+                       , post_body=None
+                       , author_name=None
+                       , author_url=None
+                       , author_mail=None
+                       , author_open_id=None
+                       , author_ip=None
+                       , author_id=None
                        , checks=None
                        , unsure=None
                        , strictness=None
@@ -144,18 +143,18 @@ class Content(object):
                        , honeypot=None
                        , stored=None
                        , url=None
-                       , contextUrl=None
-                       , contextTitle=None
+                       , context_url=None
+                       , context_title=None
     ):
         """Submit content to the Mollom service to have it updated. The contentId is
         taken from the calling object, so you should not use this unless you called
         checkContent first.
 
         Keyword arguments:
-        postTitle    (optional) -- The title of your post or comment.
-        postBody     (optional) -- The main content that needs to be checked.
-        authorName   (optional) -- The content author.
-        authorUrl    (optional) -- The URL of the content author's website.
+        post_title    (optional) -- The title of your post or comment.
+        post_body     (optional) -- The main content that needs to be checked.
+        author_name   (optional) -- The content author.
+        author_url    (optional) -- The URL of the content author's website.
         authorMail   (optional) -- The email address of the content author.
         authorOpenid (optional) -- The Open ID of the content author.
         authorIp     (optional) -- The IP address of the content author.
@@ -181,21 +180,21 @@ class Content(object):
             return None
 
         tuples = {'contentId': self.contentId
-            , 'postTitle': postTitle
-            , 'postBody': postBody
-            , 'authorName': authorName
-            , 'authorUrl': authorUrl
-            , 'authorMail': authorMail
-            , 'authorOpenid': authorOpenid
+            , 'post_title': post_title
+            , 'post_body': post_body
+            , 'author_name': author_name
+            , 'author_url': author_url
+            , 'authorMail': author_mail
+            , 'authorOpenid': author_open_id
             , 'checks': checks #FIXME: these should be concatenated
             , 'unsure': unsure
             , 'strictness': strictness
             , 'honeypot': honeypot
             , 'stored': stored
             , 'url': url
-            , 'contextUrl': contextUrl
-            , 'contextTitle': contextTitle}
-        data = Util.catMaybeValues(tuples)
+            , 'contextUrl': context_url
+            , 'contextTitle': context_title}
+        data = __cat_maybe_values(tuples)
         answer = __service('POST', 'content', data, )
 
         # for now, we check for a None, this should be fixed when we throw exceptions

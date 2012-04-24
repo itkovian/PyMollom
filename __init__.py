@@ -1,12 +1,34 @@
-"""Support for the Mollom content filtering system
+#!/usr/bin/env python
+#
+# Copyright (C) 2008-2012 Andy Georges
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# ---------------------------------------------------------------------
 
-This package contains the following modules:
+"""Implementation of the Mollom REST API.
 
-HTTPTransport -- a class for transporting XMLRPC requests, fixing the 
-                 problems from the standard Transport class in the 
-                 Python XMLRPC library.
-
-Mollom -- Implementation of the Mollom protocol, allowing interaction
-          with the Mollom service from Python.
-
+@author Andy Georges
+@date April 24, 2012
 """
+
+__author__ = 'Andy Georges'
+__status__ = 'beta'
+__version__ = '0.1'
+__date__ = 'April 24, 2012'
+
+
+import API.Content as Content
+
+__all__ = [Content]

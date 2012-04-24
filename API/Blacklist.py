@@ -47,23 +47,23 @@ class Blacklist(object):
         pass
 
 
-    def createEntry(self):
+    def create_entry(self):
         pass
 
 
-    def updateEntry(self):
+    def update_entry(self):
         pass
 
 
-    def deleteEntry(self):
+    def delete_entry(self):
         pass
 
 
-    def listEntries(self):
+    def list_entries(self):
         pass
 
 
-    def readEntry(self):
+    def read_entry(self):
         pass
 
 
