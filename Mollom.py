@@ -36,23 +36,61 @@ import oauth2
 import urllib
 from ConfigParser import ConfigParser
 
-import Util
+from PyMollom import *
 
-class MollomFault(object):
-    """MollomFault encapsulates values returned by the Mollom service that indicate a fault."""
+class MollomBase(object):
+    """Base class for the Mollom API classes.
+    """
+    def __init__(self, public_key, private_key):
+        """Initialise."""
+        self.public_key = public_key
+        self.private_key = private_key
+        self.mollom_headers = ['Accept':'application/json;q=0.8, */*;q=0.5']
+        self.mollom_uri = "%s/%s" % (MOLLOM_SERVER, MOLLOM_VERSION)
 
-    CONNECTION_ERROR = 1000
-    UNAUTHORISED_ERROR = 401
-    FORBIDDEN_ERROR = 403
-    NOT_FOUND_ERROR = 404
 
-    def __init__(self, code):
-        super(MollomFault, self).__init__()
-        self.faultCode = code
+    def __service(method, path, data=None, maxRetries=0, depth=0):
+        """The service method makes the actual call to the Mollom service
+        on behalf of the public API method.
 
-    def serverBusy(self):
-        # XXX: FIXME
-        return self.faultCode == MollomFault.MOLLOM_CONNECTION_ERROR
+        @type method: the HTTP method (POST, GET, ...)
+        @type path: the URL path
+        @type data: dictionary with the data to pass in case of a POST
+        @type maxRetries: int
+        @type depth:int
+
+        @returns:
+         - The result of the call, if a server is available.
+         - None after MOLLOM_RETRIES successive failed retries.
+        """
+
+        if depth > maxRetries:
+            return None
+
+            # superfluous?
+            #params = { 'oauth_version': 1.0
+            #         , 'oauth_timestamp': int(time.time())
+            #         , 'oauth_nonce': oauth2.generate_nonce()
+            #         , 'oauth_signature_method': "HMAC-SHA1"
+            #         , 'oauth_consumer_key': self.publicKey
+            #         }
+
+        body = urllib.urlencode(data)
+        consumer = oauth2.Consumer(key=self.public_key, secret=self.private_key)
+        client = oauth2.Client(consumer)
+
+        #request = oauth2.Request( method='GET'
+        #                        , url= self.mollomServer + path
+        #                        , parameters = params
+        #                        , body = body)
+
+        resp, content = client.request(self.mollom_uri + path, method, headers=self.mollom_headers, body=body)
+
+        if resp.status == 200:
+            return content
+        else:
+            # FIXME: do some error checking here
+            return None
 
 
 class MollomAPI(object):
