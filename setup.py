@@ -4,7 +4,8 @@ from distutils.core import setup
 setup(name='PyMollom',
       version='0.1',
       license='GPL',
-      py_modules=['Mollom', 'HTTPTransport'],
+      py_modules=['Mollom', 'Util'],
+      requires=['httplib2','oauth2'],
       description='A Python library for the Mollom anti-spam service',
       long_description=open('README.rst').read(),
       classifiers=[

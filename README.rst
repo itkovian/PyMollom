@@ -4,9 +4,11 @@ PyMollom
 
 A Python library for the `Mollom`_ anti-spam service.
 
-A PyPI package is available at `PyPI_pymollom`_.
+A PyPI package is available at `PyPI_pymollom`_. This package still implements
+the old XMLRPC API. Right now, the code base is moving towards the new REST API.
 
-Example: ::
+
+XMLRPC Example: ::
 
   from Mollom import MollomAPI
   from Mollom import MollomFault
