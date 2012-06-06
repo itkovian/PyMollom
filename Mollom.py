@@ -117,7 +117,7 @@ class MollomAPI(object):
         timeoutHours   (optional) -- The Mollom server list timeout in hours. Defaults to 0 hours.
         defaultServer  (optional) -- The default server for communicating with Mollom. This should
                                      only be used for obtaining a valid server list. Defaults to
-                                     http://xmlrpc.mollom.com.
+                                     http://rest.mollom.com.
         defaultVersion (optional) -- The default API version used. Defaults to 1.0.
 
         The actual timeout is computed as the number of days plus the number of hours.
