@@ -57,7 +57,7 @@ def __service(method, path, data=None, maxRetries=0, depth=0):
         #         }
 
     body = urllib.urlencode(data)
-    consumer = oauth2.Consumer(key=self.publicKey, secret=self.privateKey)
+    consumer = oauth2.Consumer(key=publicKey, secret=privateKey)
     client = oauth2.Client(consumer)
 
     #request = oauth2.Request( method='GET'

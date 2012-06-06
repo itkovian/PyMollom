@@ -174,7 +174,7 @@ class Site(MollomBase):
         path = 'site/%s/delete' % (self.public_key)
         return __service('POST', path)
 
-    def list(self):
+    def list(self, count):
         path = 'site/'
         return __service('GET', path)
 
