@@ -190,9 +190,22 @@ class Site(MollomBase):
         except MollomError, m_err:
             raise
 
-    def list(self, count):
+    def list(self, offset=0, count=None):
         """List all sites registered with Mollom that correspond to the given authentication."""
+        data = {
+            'offset': offset
+        }
+        if not count is None:
+            data['count'] = count
         path = 'site/'
-        contents = __service('GET', path)
-
+        try:
+            content = __service('GET', path, data)
+            jd = JSONDecoder().decode(content)
+            sites = jd['list']
+            listCount = jd['listCount']
+            listOffset = jd['listOffset']
+            listTotal = jd['listTotal']
+            return [SiteReponse().fromJSON(s) for s in sites]
+        except MollomError, m_err:
+            raise
 
