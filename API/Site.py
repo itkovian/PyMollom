@@ -73,7 +73,7 @@ class Site(MollomBase):
     """
 
     def __init__(self, public_key, private_key):
-        pass
+        super(MollomBase, self).__init__(public_key, private_key)
 
     def create( self
               , url
