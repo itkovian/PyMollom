@@ -89,8 +89,9 @@ class MollomBase(object):
         if resp.status == 200:
             return content
         else:
-            # FIXME: do some error checking here
-            return None
+            # The actual message will be provided by the various API classes, as we have
+            # no clue here what the actual meaning of the error code is.
+            raise MollomError(resp.status, "")
 
 
 class MollomError(Exception):

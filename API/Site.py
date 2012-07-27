@@ -175,14 +175,20 @@ class Site(MollomBase):
     def read(self):
         """Get the information Mollom keeps about the given site."""
         path = 'site/%s' % (self.public_key)
-        content = __service('GET', path)
-        return(SiteReponse().fromJSON(JSONDecoder().decode(content)['site']))
+        try:
+            content = __service('GET', path)
+            return(SiteReponse().fromJSON(JSONDecoder().decode(content)['site']))
+        except MollomError, m_err:
+            raise
 
     def delete(self):
         """Delete the site from Mollom."""
         path = 'site/%s/delete' % (self.public_key)
-        content = __service('POST', path)
-        return(SiteReponse().fromJSON(JSONDecoder().decode(content)['site']))
+        try:
+            content = __service('POST', path)
+            return(SiteReponse().fromJSON(JSONDecoder().decode(content)['site']))
+        except MollomError, m_err:
+            raise
 
     def list(self, count):
         """List all sites registered with Mollom that correspond to the given authentication."""
