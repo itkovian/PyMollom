@@ -117,6 +117,7 @@ class MollomError(Exception):
 class ConnectionError(MollomError):
     pass
 
+
 class BlacklistError(MollomError):
     pass
 
@@ -129,13 +130,16 @@ class CaptchaError(MollomError):
     def __init__(self, code, message):
         super(CaptchaError, self).__init__(code, message)
 
+
 class CaptchaDoesNotExistError(CaptchaError):
     def __init__(self, code, message):
         super(CaptchaDoesNotExist, self).__init__(code, message)
 
+
 class CaptchaAlreadyProcessedError(CaptchaError):
     def __init__(self, code, message):
         super(CaptchaAlreadyProcessed, self).__init__(code, message)
+
 
 class CaptchaExpiredError(CaptchaError):
     def __init__(self, code, message):
@@ -158,9 +162,11 @@ class FeedbackMissingIdError(FeedbackError):
     def __init__(self, code, message):
         super(FeedbackMissingIdError, self).__init__(code, message)
 
+
 class FeedbackUnknownReasonError(FeedbackError):
     def __init__(self, code, message):
         super(FeedbackUnknownReasonError, self).__init__(code, message)
+
 
 class SiteError(MollomError):
     SITE_UNKNOWN = 404
@@ -172,7 +178,6 @@ class SiteError(MollomError):
 class SiteUnknownError(SiteError):
     def __init__(self, code, message):
         super(SiteUnknownError, self).__init__(code, mesage)
-
 
 
 class WhitelistError(MollomError):
@@ -190,15 +195,14 @@ class WhitelistUnknownEntryError(WhitelistError):
 class Unauthorised(MollomError):
     pass
 
+
 class Forbidden(MollomError):
     pass
+
 
 class NotFound(MollomError):
     pass
 
+
 class JSONParseError(MollomError):
     pass
-
-
-
-
