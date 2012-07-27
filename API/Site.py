@@ -73,7 +73,7 @@ class Site(MollomBase):
     """
 
     def __init__(self, public_key, private_key):
-
+        pass
 
     def create( self
               , url
@@ -158,7 +158,6 @@ class Site(MollomBase):
                                        , method="POST"
                                        , data=urlencode(data)
                                        , headers={'Accept': 'application/json;q=0.8, */*;q=0.5'})
-        ## FIXME: check response
         if response['status'] == 200:
             return(SiteReponse().fromJSON(JSONDecoder().decode(content)['site']))
         else:
