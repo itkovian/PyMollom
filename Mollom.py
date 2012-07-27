@@ -45,7 +45,7 @@ class MollomBase(object):
         """Initialise."""
         self.public_key = public_key
         self.private_key = private_key
-        self.mollom_headers = ['Accept':'application/json;q=0.8, */*;q=0.5']
+        self.mollom_headers = {'Accept': 'application/json;q=0.8, */*;q=0.5'}
         self.mollom_uri = "%s/%s" % (MOLLOM_SERVER, MOLLOM_VERSION)
 
 

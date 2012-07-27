@@ -20,6 +20,10 @@ __author__ = "Andy Georges"
 __date__ = "$Feb 8, 2012$"
 # This module contains the class file for the Mollom Blacklist API
 # ---------------------------------------------------------------------
+
+from PyMollom import *
+
+
 class Reason(object):
     SPAM = "spam"
     PROFANITY = "profanity"
@@ -42,7 +46,7 @@ class Match(object):
     CONTAINS = "contains"
 
 
-class Blacklist(object):
+class Blacklist(MollomBase):
     def __init__(self):
         pass
 
