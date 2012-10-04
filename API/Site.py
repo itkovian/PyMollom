@@ -29,6 +29,8 @@ from PyMollom import *
 
 
 class SiteResponse(MollomResponse):
+    """Response obtained from the Site API."""
+
     def __init__( self
                 , id
                 , public_key
@@ -41,6 +43,7 @@ class SiteResponse(MollomResponse):
                 , platform_version
                 , client_name
                 , client_version):
+        """Initialise instance."""
         self.id = id
         self.public_key = public_key
         self.private_key = private_key
@@ -54,6 +57,7 @@ class SiteResponse(MollomResponse):
         self.client_version = client_version
 
     def fromJSON(self, js):
+        """Convert a JSON string to the corresponding SiteResponse."""
         return SiteReponse( id=js.get('id')
                           , public_key=js.get('publicKey')
                           , private_key=js.get('privateKey')
