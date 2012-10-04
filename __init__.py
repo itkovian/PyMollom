@@ -94,6 +94,10 @@ class MollomBase(object):
             raise MollomError(resp.status, "")
 
 
+class MollomResponse(Object):
+    pass
+
+
 class MollomError(Exception):
     """Base class for all Mollom errors.
 
