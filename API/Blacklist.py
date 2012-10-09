@@ -22,6 +22,7 @@ __date__ = "$Feb 8, 2012$"
 # ---------------------------------------------------------------------
 
 from PyMollom import *
+from Util import catMaybeValues
 
 
 class BlacklistResponse(MollomResponse):
@@ -60,7 +61,7 @@ class BlacklistResponse(MollomResponse):
                                 , reason=Reason.fromJSON(js.get('reason'))
                                 , context=Context.fromJSON(js.get('context'))
                                 , match=Match.fromJSON(js.get('match'))
-                                , note=js.get('note')
+                                , note=js.get('note'))
 
 
 class Reason(object):
@@ -98,6 +99,10 @@ class Blacklist(MollomBase):
     def __init__(self, public_key, private_key):
         super(MollomBase, self).__init__(public_key, private_key)
 
+    def __decode(self, content):
+        """Turn the JSON response into a BlacklistResponse."""
+        return(BlacklistResponse().fromJSON(JSONDecoder().decode(content)['entry']))
+
     def create_entry( self
                     , value
                     , reason=Reason.UNWANTED
@@ -110,28 +115,89 @@ class Blacklist(MollomBase):
             'value': value,
             'reason': reason,
             'context': context,
-            'match': match
+            'match': match,
             'status': '%d' % (status)
         }
         if not note is None:
             data['note'] = Note
-        path = "blacklist/%s" % (self.public_key)
+        path = "blacklist/{public_key}/".format(self.public_key)
 
         try:
             content = self.__service('POST', path, data)
-            return(BlacklistReponse().fromJSON(JSONDecoder().decode(content)['entry']))
+            return self.__decode(content)
+        except MollomError, _:
+            raise
+
+    def update_entry( self
+                    , entry_id
+                    , value=None
+                    , reason=None
+                    , context=None
+                    , match=None
+                    , status=None
+                    , note=None):
+        """Update a blacklist entry.
+
+        @type entry_id: string representing a blacklist entry ID.
+        @type value: string to blacklist.
+        @type reason: Reason instance describing why the entry is blacklisted.
+        @type context: Context instance describing the context of the blacklisting.
+        @type match: Match instance describig how the entry should be matched.
+        @type status: 0 or 1, stating if the entry is enabled or not.
+        @type note: string representing additional information for the blacklisting.
+
+        @returns: BlacklistResponse instance.
+
+        @raise: MollomError is the entry cannot be updated.
+        """
+        data = catMaybeValues({
+            'value': value,
+            'reason': reason,
+            'context': context,
+            'match': match,
+            'status': '%d' % (status)
+            })
+        path = "blacklist/{public_key}/{entry_id}".format(public_key=self.public_key, entry_id=entry_id)
+
+        try:
+            content = self.__service('POST', path, data)
+            return self.__decode(content)
         except MollomError, m_err:
             raise
 
+    def delete_entry( self
+                    , entry_id):
+        """Delete a blacklist entry.
 
-    def update_entry(self):
-        pass
+        @type entry_id: string representing the blacklist entry ID.
 
-    def delete_entry(self):
-        pass
+        @raise MollomError if the entry cannot be deleted for some reason.
+        """
+        path = "blacklist/{public_key}/{entry_id}/delete".format(public_key=self.public_key, entry_id=entry_id)
+        try:
+            self.__service('POST', path, {})
+            return True
+        except MollomError, _:
+            raise
 
     def list_entries(self):
-        pass
+        """List the entries in the blacklist.
 
-    def read_entry(self):
-        pass
+        @returns: list of BlacklistResponse instances
+        """
+        path = "blacklist/{public+key}".format(public_key=self.public_key)
+        try:
+            entries = self.__service('GET', path, {})
+            return map(lambda e: self.__decode(e), entries)
+        except MollomError, _:
+            raise
+
+
+    def read_entry(self,
+                   entry_id):
+        """Read the information Mollom has about a blacklist entry.
+
+        @type entry_id: string representing the blacklist entry ID.
+
+        @returns: BlacklistResponse instance
+        """
